@@ -1,0 +1,186 @@
+/* ======================= */
+/*     STEP COMPONENT      */
+/* ======================= */
+
+/* ---------- ตัวแปร Theme ---------- */
+:root {
+  --step-color-pws: #0064ff; /* สีหลักของ stepper (step ที่ active หรือ complete) */
+}
+
+/* ---------- Wrapper หลัก ---------- */
+.stepper-wrapper {
+  width: 100%;
+  max-width: 48rem;
+  /* ปิด padding เพื่อให้ใช้ max-width จริง */
+}
+
+/* ---------- Row: แนวนอนของ step & line ---------- */
+.stepper-row {
+  display: flex;
+  align-items: flex-start; /* ให้ indicator step แต่ละตัวชิดบน */
+  width: 95%; /* ให้เล็กกว่ากล่อง wrapper */
+  margin: 0 auto; /* จัดกึ่งกลาง */
+}
+
+/* ---------- Step: แต่ละจุด (circle) ---------- */
+.stepper-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 2.5rem; /* กำหนดขนาดเท่า indicator */
+  position: relative; /* สำหรับจัด label แบบ absolute */
+}
+
+/* ---------- Indicator: วงกลมแต่ละ step ---------- */
+.stepper-item__indicator {
+  width: 2.5rem;   /* ความกว้าง/สูงของวงกลม */
+  height: 2.5rem;
+  border-radius: 50%;      /* วงกลมเต็ม */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 2px;
+  border-style: solid;
+  transition: all 0.3s ease-in-out;
+  box-sizing: border-box;
+  position: relative;      /* ให้ z-index ได้ */
+  z-index: 2;              /* วงกลมอยู่บนเส้น */
+}
+
+/* ------- State: completed (step ที่ทำสำเร็จแล้ว) ------- */
+.stepper-item__indicator--completed {
+  background-color: var(--step-color-pws); /* สีพื้นหลัง */
+  border-color: var(--step-color-pws);     /* สีขอบ */
+  color: white;
+}
+
+/* ------- State: active (step ที่เลือก) ------- */
+.stepper-item__indicator--active {
+  background-color: white;
+  border-color: var(--step-color-pws);
+  color: var(--step-color-pws);
+  transform: scale(1.1);   /* ขยาย indicator */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -2px rgba(0, 0, 0, 0.1); /* เงานุ่ม */
+}
+
+/* ------- State: upcoming (step ที่ยังไม่ถึง) ------- */
+.stepper-item__indicator--upcoming {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+  color: #6b7280;
+}
+
+/* ------- Clickable: hover effect สำหรับ step ที่คลิกได้ ------- */
+.stepper-item__indicator--clickable {
+  cursor: pointer;
+}
+.stepper-item__indicator--clickable:hover {
+  opacity: 0.8;
+}
+
+/* ---------- Icon/เลขในวงกลม ---------- */
+.stepper-item__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.stepper-item__number {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* ---------- Label: ข้อความชื่อ step ---------- */
+.stepper-item__label {
+  position: absolute;
+  top: calc(2.5rem + 0.3rem);     /* อยู่ใต้ indicator */
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 10rem;
+  max-width: 16rem;
+  font-size: clamp(0.95rem, 1.5vw, 1.13rem);
+  white-space: normal;
+  text-align: center;
+  padding: 0 4px;
+  line-height: 1.3;
+}
+/* State: เน้น/จาง */
+.stepper-item__label--highlighted {
+  color: #000;
+  font-weight: 600;
+}
+.stepper-item__label--dimmed {
+  color: #6b7280;
+}
+
+/* ---------- Line: เส้นเชื่อมแต่ละ step ---------- */
+.stepper-line {
+  flex-grow: 1;     /* ขยายเต็มระหว่าง step */
+  height: 2px;
+  margin-top: calc(1.25rem - 1px);   /* กึ่งกลางกับ indicator */
+  transition: background-color 0.3s ease-in-out;
+  background-color: #d1d5db;
+  position: relative;
+  z-index: 1;      /* เส้นอยู่ใต้วงกลม */
+}
+
+/* Line state: เสร็จแล้ว */
+.stepper-line--completed {
+  background-color: #0064ff;
+}
+
+/* ---------- Content: บล็อกฟอร์มในแต่ละ step ---------- */
+.stepper-container {
+  width: 80%;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.stepper-content {
+  margin-bottom: 0;
+  min-height: 350px;
+  padding: 0;
+  margin-top: 55px;
+  overflow: hidden;
+  max-width: 800px;
+}
+
+.stepper-content h2 {
+  margin-bottom: 24px;
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* ---------- ฟอร์ม (ถ้ามี) ---------- */
+/* .input-form {...} */
+/* .input-form h2 {...} */
+
+/* ---------- Responsive: mobile ปรับขนาด label ---------- */
+@media (max-width: 700px) {
+  .stepper-item__label {
+    min-width: 6.5rem;
+    max-width: 8.8rem;
+    font-size: 0.97rem;
+    padding: 0 1.5px;
+  }
+}
+
+/* Responsive: mobile ขยาย row เต็ม */
+@media (max-width: 575.98px) {
+  .stepper-row {
+    width: 100%;
+    padding: 0 12px;
+  }
+}
+/* Responsive: tablet+ */
+@media (min-width: 576px) {
+  .stepper-row {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+/* ========= END STEP COMPONENT ========= */

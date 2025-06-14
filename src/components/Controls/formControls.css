@@ -1,0 +1,456 @@
+:root {
+  --control-border-normal-pws: #9e9e9e;
+  --control-border-focus-pws: #3b82f6;
+  --control-input-text-height-pws: 51px;
+  --font-size-normal-pws: 16px;
+  --font-color-normal-pws: #606060;
+  --font-color-input-pws: #4e4e4e;
+  --font-color-error-pws: #d9534f;
+  /* clamp + golden ratio */
+  --font-base: 1rem;
+  --golden-ratio: 1.618;
+}
+
+.input-group {
+  /* margin-top: 20px; */
+  position: relative;
+  margin-bottom: 25px;
+  /*Test*/
+  /* border: 1px solid #d9534f; 
+  border-radius: 4px;  
+  background: #fff;  
+  color: #d9534f;    */
+}
+/*ถ้ามี   labelต่อจาก  input*/
+.input-group:has(+ .label-standard) {
+  margin-bottom: 10px;
+}
+.label-standard {
+  padding: 0px;
+  margin-bottom: 25px;
+}
+
+.input-inner {
+  position: relative;
+}
+
+.input-label {
+  font-size: var(--font-size-normal-pws);
+  color: var(--font-color-normal-pws);
+  position: absolute;
+  left: 12px;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  top: 25px;
+  transform: translateY(-50%);
+}
+
+.form-input {
+  width: 100%;
+  padding: 15px 12px;
+  font-size: var(--font-size-normal-pws);
+
+  border: 1px solid var(--control-border-normal-pws);
+
+  border-radius: 8px;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  height: var(--control-input-text-height-pws);
+  color: var(--font-color-input-pws);
+}
+.form-input:focus,
+.form-input:not(:placeholder-shown) {
+  padding-top: 24px;
+  padding-bottom: 8px;
+}
+.form-input:focus + .input-label,
+.form-input:not(:placeholder-shown) + .input-label {
+  position: absolute;
+  top: 15px;
+  font-size: 12px;
+  color: #757575;
+}
+.form-input:focus {
+  /* border-color: #2196F3; */
+  border-color: var(--control-border-focus-pws);
+  outline: none;
+}
+
+/*กรณีอยากได้กรอบเขียว*/
+.input-group.valid .form-input {
+  /* border-color: #4caf50; */
+}
+.input-group.error .form-input {
+  border-color: var(--font-color-error-pws);
+}
+
+.validation-icon {
+  position: absolute;
+  right: 12px;
+  top: 25px;
+  /* right: -13px;
+    top: 27px; */
+  top: 27px;
+  transform: translateY(-50%);
+  display: none;
+}
+.valid-icon {
+  color: #4caf50;
+}
+.error-icon {
+  color: var(--font-color-error-pws);
+}
+.input-group.valid .valid-icon {
+  display: block;
+}
+.input-group.error .error-icon {
+  display: block;
+}
+.message {
+  font-size: 12px;
+  margin-top: 5px;
+  display: none;
+}
+.input-group.error .message {
+  display: block;
+  color: var(--font-color-error-pws);
+}
+.input-group.valid.extra-message .message {
+  display: block;
+  color: #757575;
+}
+.form-input:disabled {
+  background-color: #f5f5f5;
+  border-color: #ddd;
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+.input-group.disabled .input-label {
+  color: #bdbdbd;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/*Test  เหมือน  แต่ถูกไม่  เหมือน*/
+.radio-group-horizontal {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-label {
+  /* font-weight: bold; */
+  color: #3f3f3f;
+  /* margin-bottom: 16px; */
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+/*Radio---------------------------------------------------------------------------*/
+.radio-options-row-Horizontal {
+  display: flex;
+  gap: 40px;
+}
+
+.radio-options-row-Vertical {
+  display: flex;
+  gap: 7px;
+  flex-direction: column;
+}
+
+.radio-option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.radio-option input {
+  display: none;
+}
+
+.custom-radio-customForm {
+  /* width: 48px;
+  height: 48px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-radio-customForm svg circle,
+.custom-radio-customForm svg path {
+  transition: stroke 0.3s ease; /* Transition for stroke property */
+}
+
+.custom-radio-customForm svg circle {
+  stroke: #ccc; /* Default border color */
+}
+
+.custom-radio-customForm svg path {
+  stroke: transparent; /* Inner dot hidden by default */
+}
+
+.radio-option input:checked + .custom-radio-customForm svg circle {
+  /* stroke: #0064FF; */
+  /* Blue border when checked */
+
+  stroke: var(--control-border-focus-pws);
+}
+
+.radio-option input:checked + .custom-radio-customForm svg path {
+  /* stroke: #0064FF; */
+  /* Blue inner dot when checked */
+  stroke: var(--control-border-focus-pws);
+}
+
+.custom-radio-customForm:hover svg circle {
+  stroke: var(--control-border-focus-pws);
+}
+
+.radio-text {
+  /* font-size: 16px; */
+  font-size: var(--font-size-normal-pws);
+
+  font-weight: normal;
+  text-align: center;
+  color: var(--font-color-normal-pws);
+  /* margin-top: 4px; */
+}
+
+/*concent------------------------------------------------------------------*/
+.consent-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  user-select: none;
+}
+
+.consent-container input {
+  display: none;
+}
+
+.custom-checkbox {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-checkbox svg rect,
+.custom-checkbox svg path {
+  transition: stroke 0.3s ease; /* Transition for stroke property */
+}
+
+.custom-checkbox svg rect {
+  stroke: #ccc; /* Default border color */
+}
+
+.custom-checkbox svg path {
+  stroke: transparent; /* Checkmark hidden by default */
+}
+
+.consent-container input:checked + .custom-checkbox svg rect {
+  /* stroke: #007BFF;  */
+  /* Blue border when checked */
+
+  stroke: var(--control-border-focus-pws);
+}
+
+.custom-checkbox:hover svg rect {
+  stroke: var(--control-border-focus-pws);
+}
+
+.consent-container input:checked + .custom-checkbox svg path {
+  stroke: var(--control-border-focus-pws);
+}
+
+/*--ทั้ง  Form  share  กัน ---------------------------------------------------*/
+
+.numeric-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  /* margin-bottom: 24px; */
+}
+
+.numeric-input-inner {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--control-border-normal-pws); /* Use variable for consistency */
+  border-radius: 8px;
+  padding: 0 12px;
+  height: 48px;
+  /*width: 100%;*/
+  height: var(--control-input-text-height-pws);
+  position: relative;
+  transition: border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* Keep the more specific transition */
+}
+
+/* เปลี่ยนขอบเป็นสีฟ้าเมื่อ input ด้านใน focus */
+.numeric-input-inner:focus-within {
+  /* border-color: #166cff;  */
+  /* สีฟ้าแบบ bootstrap primary */
+  border-color: var(--control-border-focus-pws);
+  outline: none;
+}
+
+.numeric-input-wrapper.focus .numeric-input-inner {
+  /* border-color: #2196F3;  */
+  /* จากชุด 1 */
+  border-color: var(--control-border-focus-pws);
+}
+
+.numeric-input-wrapper.done .numeric-input-inner {
+  border-color: #999; /* จากชุด 2 */
+}
+
+.numeric-input-wrapper.error .numeric-input-inner {
+  border-color: var(--font-color-error-pws); /* จากชุด 1 */
+}
+
+.left-label {
+  font-size: var(--font-size-normal-pws);
+  color: var(--font-color-normal-pws);
+  margin-right: auto;
+  flex-shrink: 0;
+}
+
+.numeric-input {
+  border: none;
+  outline: none;
+  font-size: var(--font-size-normal-pws);
+  font-weight: 500;
+  text-align: right;
+  flex: 1;
+  padding: 15px 12px; /* จาก .form-input */
+  /* color: #000; */
+  color: var(--font-color-input-pws);
+  background-color: transparent;
+  transition: all 0.3s;
+  border-radius: 8px;
+}
+
+.numeric-input::placeholder {
+  color: #aaa;
+  opacity: 1;
+}
+
+.error-text {
+  color: var(--font-color-error-pws);
+  font-size: 12px;
+  margin-top: 4px;
+  margin-left: 4px;
+}
+
+/* valid / error highlight (ชุด 1 style) */
+.numeric-input-wrapper.valid .numeric-input-inner {
+  border-color: #4caf50;
+}
+
+.numeric-input:disabled {
+  background-color: #f5f5f5;
+  border-color: #ddd;
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+
+/*consent=======================================================*/
+
+.consent-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.consent-container input {
+  display: none;
+}
+
+.custom-checkbox {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.consent-scroll-box {
+  /* max-height: 200px; */
+  overflow-y: auto;
+  /* border: 1px solid #dc3545; */
+  /* padding: 0px 12px 12px 0px; */
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--font-color-normal-pws);
+  background: #fff;
+  flex: 1;
+  font-family: "BangkokBank-Regular", sans-serif;
+}
+
+/*New Featur Concent*/
+.scroll-content::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.scroll-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
+.scroll-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 6px;
+  border: 2px solid #f1f1f1;
+}
+
+.scroll-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.scroll-content::-webkit-scrollbar-corner {
+  background: #f1f1f1;
+}
+
+/* Force scrollbar on mobile */
+.scroll-content {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+/* iOS Safari specific */
+@supports (-webkit-touch-callout: none) {
+  .scroll-content {
+    -webkit-overflow-scrolling: auto;
+  }
+}
+
+.scroll-content {
+  overflow-y: scroll;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fafafa;
+  font-size: 14px;
+  line-height: 1.6;
+  scrollbar-width: auto; /* Firefox */
+  -ms-overflow-style: scrollbar; /* IE/Edge */
+  -webkit-overflow-scrolling: touch; /* iOS */
+}
+
+/**/
+
+.text-error-message {
+  margin-top: 6px;
+  color: var(--font-color-error-pws);
+  font-size: 15px;
+}

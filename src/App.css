@@ -1,0 +1,207 @@
+/* @import "tailwindcss"; */
+
+@font-face {
+  font-family: "BangkokBank-Regular";
+  src: url("/fonts/BBLSans-Regular.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
+body {
+  font-family: "BangkokBank-Regular", sans-serif;
+}
+
+.submit-container {
+  margin-top: 24px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.btn-primary {
+  /* ฟ้าอ่อน */
+  background: #1080ff;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s, box-shadow 0.2s;
+  min-width: 160px;
+
+  font: 1rem / 1.3 "BangkokBank-Regular", Tahoma, Helvetica, Arial, sans-serif;
+}
+
+.btn-primary:hover:not(:disabled) {
+  /* ฟ้าเข้ม */
+  background: #0454ba;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(16, 128, 255, 0.16);
+}
+
+.btn-primary:active:not(:disabled) {
+  /* จิ้มแล้วกลับสภาพปกติ */
+  background: #1080ff;
+  color: #fff;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #f8f9fa;
+  color: #6c757d;
+  border: none;
+  box-shadow: none;
+}
+
+/* (opt) Loading spinner เหมือนเดิม */
+.btn-primary:disabled::after {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  border: 2px solid #6c757d;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Form field spacing */
+/* .insurance-form > div {
+  margin-bottom: 20px;
+} */
+
+/* Error states */
+.field-error {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+ 
+
+ 
+
+.app-container {
+  /* min-height: 100vh;
+   */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-title {
+  color: #000; /* เทียบเท่า text-gray-700 */
+
+  text-align: center; /* เพิ่มเพื่อให้ข้อความอยู่ตรงกลาง หากต้องการ */
+}
+
+/*--------------------------------------------------*/
+
+/*Step 3*/
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.item-label {
+      
+}
+.item-value {
+  font-weight: bold;
+  color: #000;
+}
+
+.br-responsive {
+  display: none;
+}
+@media (max-width: 500px) {
+  /* เลือกจุดตัดขนาดจอได้ */
+  .br-responsive {
+    display: block;
+    height: 0;
+    /* บังคับขึ้นบรรทัดใหม่ */
+  }
+}
+
+.total-premium {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee; /* Light line separator */
+}
+.total-premium-label {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.total-premium-value {
+  font-size: 2em;
+  font-weight: bold;
+  color: #000;
+}
+.total-premium-unit {
+  font-size: 1em;
+  color: #000;
+  margin-left: 5px;
+   font-weight: bold;
+}
+
+.company-info {
+  margin-bottom: 20px;
+  font-size: 0.9em;
+  color: #444;
+}
+
+.footer-note {
+  font-size: 0.8em;
+  color: #777;
+  margin-top: 30px;
+  text-align: left;
+}
+
+
+.section-mini{
+
+  margin-top:25px;
+  margin-bottom: 25px;
+}
+
+
+
+/*Test*/
+.styled-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.6em 1.2em;
+  border-radius: 999px;
+
+  color:#0064ff;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.styled-link:hover {
+  color:#0064ff;
+  
+}
+
+.styled-link svg {
+  transition: transform 0.2s;
+}
+
+.styled-link:hover svg {
+  transform: translateX(3px) scale(1.1);
+}
