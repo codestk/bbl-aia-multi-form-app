@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Page from "./pages/Page";
 import "./App.css";
- 
+// import 'input-states-react/dist/fonts/BBLSans-Regular.woff';
+
 import 'input-states-react/dist/input-states-react.css';
 
 const App = () => {
