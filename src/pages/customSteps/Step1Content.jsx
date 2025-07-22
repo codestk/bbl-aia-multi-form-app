@@ -1,4 +1,4 @@
-import {BaseForm} from "input-states-react";
+import {FormBuilder} from "input-states-react";
 /********************************************************************
  * Step1Content: Form หน้าแรก
  * - รับ props: onStepComplete, formData, setFormData
@@ -13,8 +13,8 @@ const Step1Content = ({
   const buttonLabel = window.__FORM_DATA__.steps[0].buttonLabel;
 
   return (
-    <div>
-      <BaseForm
+    <div className="form-container">
+      <FormBuilder
         fields={mappedFields}
         onFormSubmitAndValidated={onStepComplete}
         formData={formData}

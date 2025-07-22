@@ -5,8 +5,11 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React</title>
+
+
+
     <script>
-      window.__FORM_DATA__ = {
+      window.__FORM_DATA__ =  {
         planDataApiUrl: "https://www.idinrice.com/api/plan-data.php",
         fieds: [
           {
@@ -38,35 +41,12 @@
             errorMessage: "อายุต้องอยู่ระหว่าง 1-120 ปี",
           },
           {
-            name: "coverage",
-            component: "NumericTextInput",
-            props: {
-              head: "ทุนประกันภัย* ที่คุณต้องการ",
-              label: "ทุนประกัน",
-              suggest: "100,000 - 1,000,000",
-              min: 100000,
-              max: 1000000,
-              maxDigit: 7,
-              decimalPlaces: 2,
-              required: true,
-            },
-            errorMessage:
-              "ทุนประกันภัยต้องอยู่ระหว่าง 100,000 ถึง 1,000,000 บาท",
-          },
-          {
-            type: "label",
-            name: "coverageNote",
-            component: "StandardLabel",
-            props: {
-              html: "<b>*หมายเหตุ:</b> กรุณาอ่านให้ครบถ้วนก่อนดำเนินการต่อ00",
-            },
-          },
-
-          {
             name: "hospitalPlan",
             component: "RadioGroup",
             props: {
-              head: "เลือกแผนความคุ้มครองค่ารักษา",
+              head: `เลือกแเลือกความคุ้มครองค่ารักษาพยาบาลที่คุณต้องการ
+ความคุ้มครองที่แนะนำ - แผน 4: คุ้มครองค่ารักษา 500,000 บาท (ค่าห้อง 4,000 บาท) 
+ผนความคุ้มครองค่ารักษา`,
               name: "hospitalPlan",
               options: [
                 {
@@ -110,6 +90,7 @@
             name: "consent",
             component: "ConsentCheckbox",
             props: {
+                errorConsentNotScrolled : "กรุณาอ่านข้อมูลให้ครบถ้วนก่อนกดยินยอม",
               children: ` <div>
       <div>
         <p class="text-default editor">
@@ -158,16 +139,7 @@
             },
             errorMessage: "กรุณายินยอมก่อนดำเนินการต่อ",
           },
-          {
-            name: "name",
-            component: "TextInput",
-            props: {
-              head: "กรอกข้อความที่ต้องการ",
-              label: "ข้อความ",
-              required: true,
-            },
-            errorMessage: "กรุณากรอกข้อความ",
-          },
+        
         ],
         steps: [
           {
@@ -260,7 +232,7 @@
               },
             ],
             premium: {
-              label: "เบี้ยประกันของคุณ",
+              label: "เบี้ยประกันของคุณ", 
               valueKey: "premiumValue",
               unit: "บาท/ปี",
             },
@@ -278,9 +250,34 @@
           },
         ],
       };
+
+ 
+
+       window.addEventListener("DOMContentLoaded", () => {
+    const contentAia = document.getElementById("Step2content");
+    if (window.__FORM_DATA__ && contentAia) {
+      const htmlContent = contentAia.innerHTML;
+
+      // เจาะจง step ที่ 2 (index 1)
+      if (window.__FORM_DATA__.steps && window.__FORM_DATA__.steps[1]) {
+        window.__FORM_DATA__.steps[1].insurancePlanHtml = htmlContent;
+      }
+    }
+  });
+
+
+
+
     </script>
+
+
+
+
   </head>
   <body>
+      <div id="Step2content" style="display: none">
+    tgrtngrtjgtr grtjnjgrtnjgrt gmrnjkgnjgtr grtmngjnjgt ijgfidjifg frekfkre
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

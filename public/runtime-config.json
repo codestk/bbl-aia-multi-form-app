@@ -1,0 +1,7 @@
+{
+  "AIA_SUBSCRIPTION_KEY": "7ec80b988ff247cdbde0646872328112",
+  "AIA_TOKEN_URL": "https://apim-uat.aia.co.th/TokenManager/requestAccessToken",
+  "AIA_QUOTATION_URL": "https://apim-uat.aia.co.th/il-quotation-service/calculate/calculateForDropLead",
+  "AIA_USER_ID": "cb9a75c8-6499-3482-e0fe-a03bbcb652a3",
+  "AIA_APP_ID": "1db5ba52-e6f9-df98-31aa-6f1a7862ed36"
+}

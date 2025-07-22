@@ -4,9 +4,9 @@
  * - แสดงข้อมูลตัวอย่างและปุ่มไปต่อ
  *******************************************************************/
 
-import {ButtonPrimary} from "input-states-react";
-import {Label} from "input-states-react";
-
+import { ButtonPrimary } from "input-states-react";
+import { Label } from "input-states-react";
+import { useState, useEffect } from "react";
 const Step2Content = ({ onStepComplete, stepsData }) => {
   // รับข้อมูลจาก Step 1
   // const dataFromStep1 = stepsData && stepsData[0];
@@ -14,8 +14,17 @@ const Step2Content = ({ onStepComplete, stepsData }) => {
 
   const { buttonLabel, warning, insurancePlanHtml } =
     window.__FORM_DATA__.steps[1];
+
+  useEffect(() => {
+    const scrollTarget = document.querySelector("#content-main"); // <== ให้ Step2 มี id นี้
+
+    if (scrollTarget) {
+      scrollTarget.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+
   return (
-    <div className=" ">
+    <div>
       <div dangerouslySetInnerHTML={{ __html: insurancePlanHtml }} />
       <div
         className="submit-container"
@@ -25,7 +34,7 @@ const Step2Content = ({ onStepComplete, stepsData }) => {
             : alert("Step 2 เสร็จสิ้น")
         }
       >
-        <ButtonPrimary type="submit">{buttonLabel}</ButtonPrimary>
+        <ButtonPrimary type="button">{buttonLabel}</ButtonPrimary>
       </div>
       <Label>{warning}</Label>
     </div>

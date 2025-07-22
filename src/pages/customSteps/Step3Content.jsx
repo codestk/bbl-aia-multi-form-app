@@ -9,10 +9,36 @@
  * Props:
  * - onStepComplete: ฟังก์ชันที่ถูกเรียกเมื่อผู้ใช้คลิกปุ่มดำเนินการต่อ
  */
-import {ButtonPrimary} from "input-states-react";
-import { formatNumber } from "input-states-react";
+import { ButtonPrimary, formatNumber } from "input-states-react";
+
 import { useState, useEffect } from "react";
-const Step3Content = ({ onStepComplete }) => {
+import { fetchPlanData } from "../../api/planApi";
+
+import { matchPlanByNestedKey } from "../../utils/matchPlanByNestedKey";
+
+function getPlanDisplayName(formData, config) {
+  // ✅ แบบ 1: ค่าเดียวตรงๆ
+  if (config.planName) return config.planName;
+
+  // ✅ แบบ 2: override ตาม coverage
+  const rules = config.planOverrideByCoverage;
+  const rawCoverage = formData?.coverage;
+  const coverage = Number(String(rawCoverage).replace(/[^\d.]/g, ""));
+
+  if (Array.isArray(rules) && !isNaN(coverage)) {
+    const rule = rules.find((r) => {
+      const min = r.min ?? -Infinity;
+      const max = r.max ?? Infinity;
+      return coverage >= min && coverage <= max;
+    });
+
+    if (rule?.planName) return rule.planName;
+  }
+
+  return null; // ❌ fallback: ไม่เจอ planName
+}
+
+const Step3Content = ({ onStepComplete, formData }) => {
   // 1. ดึง template จาก window.__FORM_DATA__ (config)
   const step = window.__FORM_DATA__?.steps[2] || {};
   // 2. เตรียม state สำหรับ planData
@@ -20,50 +46,139 @@ const Step3Content = ({ onStepComplete }) => {
     window.__FORM_DATA__?.planData || {}
   );
   // 3. ดึง URL API จาก window.__FORM_DATA__ หรือใช้ default
-  const apiUrl = window.__FORM_DATA__?.planDataApiUrl || "";
+  // const apiUrl = window.__FORM_DATA__?.planDataApiUrl || "";
 
   // 4. ดึงข้อมูลจาก API เมื่อโหลด component
-  useEffect(() => {
-    fetch(apiUrl)
-      .then((res) => res.json())
-      .then((data) => setPlanData(data))
-      .catch(() => {}); // fallback ให้ใช้ข้อมูลใน window.__FORM_DATA__ อยู่แล้ว
-  }, [apiUrl]);
 
+  const config = window.__FORM_DATA__ || [];
+
+  // Plan name based on coverage
+  const planName = getPlanDisplayName(formData, config);
+
+  //------------------------------------------------------------------------
+
+  const prospectCategory = window.__FORM_DATA__.prospectCategory;
+
+  useEffect(() => {
+    const scrollTarget = document.querySelector("#content-main"); // <== ให้ Step2 มี id นี้
+
+    if (scrollTarget) {
+      scrollTarget.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+
+  useEffect(() => {
+    // const scrollTarget = document.querySelector("#content-main"); // <== ให้ Step2 มี id นี้
+
+    // <== ให้ Step2 มี id นี้
+
+    const fetchAll = async () => {
+      const payload = {
+        // prospectAge: 32,
+        // prospectGender: "M",
+        // prospectSA: 100000,
+
+        prospectAge: formData.age,
+        prospectGender: formData.gender,
+        prospectSA: formData.coverage,
+        //==========================================
+        prospectCategory: prospectCategory,
+      };
+
+      const result = await fetchPlanData(payload);
+
+      //ใช้   Json  Config เลือกแผน จาก  api
+
+      const selectedPlan = matchPlanByNestedKey(
+        result.data.plans,
+        formData,
+        config.planSelector
+      );
+      console.log(selectedPlan);
+      setPlanData(selectedPlan || result.data.plans[0]);
+
+      //-----------------------------------------------------
+    };
+
+    const timer = setTimeout(() => {
+      fetchAll();
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const baseItems = config.steps[2].planFields?.base || [];
+  const riderItems = config.steps[2].planFields?.riders || [];
+  console.log(riderItems);
   return (
     <div>
       <div>
-        <p className="mb-1" style={{ fontWeight: "bold" }}>
-          {step.planTitle || "แผนของคุณ"}
-        </p>
-        <p style={{ fontWeight: "bold", color: "#0064FF" }}>
-          {step.planSubtitle || ""}
-        </p>
+        <h5 className="mb-1  highlight-title">{planName}</h5>
 
         <div className="section-mini">
-          {step.items?.map((item, i) => (
-            <div className="item" key={i}>
-              <span className="item-label">{item.label}</span>
-              <span className="item-value">
-                {formatNumber(planData[item.valueKey])}
-                {item.unit ? ` ${item.unit}` : ""}
-              </span>
-            </div>
-          ))}
+          {[...baseItems, ...riderItems].map((item, i) => {
+            const unit = item.unit || "";
+            let value = null;
+
+            // 🟦 BASE (จาก planData root)
+            if (baseItems.includes(item)) {
+              value = planData?.[item.valueKey];
+            }
+
+            // 🟪 RIDER (จาก planData.rider)
+            if (
+              (value === null || value === undefined) &&
+              riderItems.includes(item) &&
+              Array.isArray(planData.rider)
+            ) {
+              // ✅ 1. หาแบบ match riderCode → เอา riderSA
+              const matchByCode = planData.rider.find(
+                (r) => r?.riderCode === item.valueKey
+              );
+              if (matchByCode && matchByCode.riderSA != null) {
+                value = matchByCode.riderSA;
+              }
+
+              // ✅ 2. หาแบบ match key field → ดึงตรงๆ (roomAndBoard, dailyComp, etc.)
+              if (value === null || value === undefined) {
+                const matchByField = planData.rider.find((r) =>
+                  Object.prototype.hasOwnProperty.call(r, item.valueKey)
+                );
+                value = matchByField?.[item.valueKey];
+              }
+            }
+
+            const displayValue =
+              value !== undefined && value !== null ? formatNumber(value) : "-";
+
+            return (
+              <div className="plan-summary-item" key={i}>
+                <span className="plan-summary-item-label">{item.label}</span>
+                <span className="plan-summary-item-value">
+                  <span className="value">{displayValue}</span>
+                  {unit && <span className="unit"> {unit}</span>}
+                </span>
+              </div>
+            );
+          })}
         </div>
 
-        <div className="total-premium">
-          <span className="total-premium-label">{step.premium?.label}</span>
+        <div className="total-premium mb-3">
+          <span className="total-premium-label">
+            {step.planFields.premium?.label}
+          </span>
           <div>
             <span className="total-premium-value">
-              {formatNumber(planData[step.premium?.valueKey])}
+              {formatNumber(planData[step.planFields.premium?.valueKey])}
             </span>
-            <span className="total-premium-unit">{step.premium?.unit}</span>
+            <span className="total-premium-unit">
+              {step.planFields.premium?.unit}
+            </span>
           </div>
         </div>
 
-        <div className="section-mini">
-          <p className="mb-3">{step.planDetailLink?.desc}</p>
+        {/* <div className="mb-2 ">
+          <p className=" ">{step.planDetailLink?.desc}</p>
           <a
             href={step.planDetailLink?.url}
             className="styled-link"
@@ -71,26 +186,30 @@ const Step3Content = ({ onStepComplete }) => {
             rel="noopener"
           >
             <span>{step.planDetailLink?.label}</span>
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              style={{ verticalAlign: "middle", marginLeft: 6 }}
-            >
-              <path
-                d="M5 12h14M13 6l6 6-6 6"
-                fill="none"
-                stroke="#1565c0"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
           </a>
         </div>
 
-        <div className="company-info section-mini">{step.company}</div>
-        <div className="footer-note">{step.notice}</div>
+        <div className="company-info  mb-2">{step.company}</div>
+        <div className="footer-note note-text mb-2">{step.notice}</div> */}
+
+ <div className="info-block">
+  <div className="info-item">
+    <p className="info-text">{step.planDetailLink?.desc}</p>
+    <a
+      href={step.planDetailLink?.url}
+      className="info-link"
+      target="_blank"
+      rel="noopener"
+    >
+      {step.planDetailLink?.label}
+    </a>
+  </div>
+
+  <div className="info-item company-info">{step.company}</div>
+  <div className="info-item footer-note">{step.notice}</div>
+</div>
+
+
 
         <div
           className="submit-container"
@@ -106,8 +225,8 @@ const Step3Content = ({ onStepComplete }) => {
             // onClick={() => (window.location.href = step.dropLeadFormUrl)}
             onClick={() =>
               onStepComplete
-                ? onStepComplete({ step3Data: "ข้อมูลจาก Step 3 สำเร็จ" })
-                :  (window.location.href = step.dropLeadFormUrl)
+                ? (window.location.href = step.dropLeadFormUrl) //onStepComplete({ step3Data: "ข้อมูลจาก Step 3 สำเร็จ" })
+                : (window.location.href = step.dropLeadFormUrl)
             }
           >
             {step.buttonLabel}
