@@ -109,14 +109,16 @@ const Step3Content = ({ onStepComplete, formData }) => {
 
   const baseItems = config.steps[2].planFields?.base || [];
   const riderItems = config.steps[2].planFields?.riders || [];
-  console.log(riderItems);
+ const displayItems = [...baseItems, ...riderItems].sort(
+  (a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999)
+);
   return (
     <div>
       <div>
         <h5 className="mb-1  highlight-title">{planName}</h5>
 
         <div className="section-mini">
-          {[...baseItems, ...riderItems].map((item, i) => {
+          {[...displayItems].map((item, i) => {
             const unit = item.unit || "";
             let value = null;
 
