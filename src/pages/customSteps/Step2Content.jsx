@@ -6,7 +6,7 @@
 
 import { ButtonPrimary } from "input-states-react";
 import { Label } from "input-states-react";
-import { useState, useEffect } from "react";
+import {  useEffect } from "react";
 const Step2Content = ({ onStepComplete, stepsData }) => {
   // รับข้อมูลจาก Step 1
   // const dataFromStep1 = stepsData && stepsData[0];
@@ -24,17 +24,17 @@ const Step2Content = ({ onStepComplete, stepsData }) => {
   });
 
   return (
-    <div>
+    <div className="CustomSpaceStep2">
       <div dangerouslySetInnerHTML={{ __html: insurancePlanHtml }} />
       <div
         className="submit-container"
-        onClick={() =>
+     
+      >
+        <ButtonPrimary type="button"    onClick={() =>
           onStepComplete
             ? onStepComplete({ step2Data: "ข้อมูลจาก Step 2 สำเร็จ" })
             : alert("Step 2 เสร็จสิ้น")
-        }
-      >
-        <ButtonPrimary type="button">{buttonLabel}</ButtonPrimary>
+        }>{buttonLabel}</ButtonPrimary>
       </div>
       <Label>{warning}</Label>
     </div>

@@ -47,9 +47,6 @@ const Page = () => {
     { name: stepNames[2], component: <Step3Content formData={formData} /> },
   ];
 
-
-
-
   // render stepper + เนื้อหา
   return (
     <div id="stepper-container" className="stepper-wrapper">

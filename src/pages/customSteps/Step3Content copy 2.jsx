@@ -9,7 +9,7 @@
  * Props:
  * - onStepComplete: ฟังก์ชันที่ถูกเรียกเมื่อผู้ใช้คลิกปุ่มดำเนินการต่อ
  */
-import { ButtonPrimary, roundAndFormatNumber } from "input-states-react";
+import { ButtonPrimary ,roundAndFormatNumber} from "input-states-react";
 
 import { useState, useEffect } from "react";
 import { fetchPlanData } from "../../api/planApi";
@@ -114,7 +114,7 @@ const Step3Content = ({ onStepComplete, formData }) => {
   );
   return (
     <div className="form-container">
-      <div  style={{ width: "100%" }}>
+      <div>
         <h5 className="mb-1  highlight-title">{planName}</h5>
 
         <div className="section-mini">
@@ -151,9 +151,7 @@ const Step3Content = ({ onStepComplete, formData }) => {
             }
 
             const displayValue =
-              value !== undefined && value !== null
-                ? roundAndFormatNumber(value)
-                : "-";
+              value !== undefined && value !== null ? roundAndFormatNumber(value) : "-";
 
             return (
               <div className="plan-summary-item" key={i}>
@@ -173,9 +171,7 @@ const Step3Content = ({ onStepComplete, formData }) => {
           </span>
           <div>
             <span className="total-premium-value">
-              {roundAndFormatNumber(
-                planData[step.planFields.premium?.valueKey]
-              )}
+              {roundAndFormatNumber(planData[step.planFields.premium?.valueKey])}
             </span>
             <span className="total-premium-unit">
               {step.planFields.premium?.unit}
@@ -183,10 +179,22 @@ const Step3Content = ({ onStepComplete, formData }) => {
           </div>
         </div>
 
-        <div
-          className="info-block"
-          dangerouslySetInnerHTML={{ __html: step.coverageNote }}
-        />
+        <div className="info-block">
+          <div className="info-item">
+            <p className="info-text">{step.planDetailLink?.desc}</p>
+            <a
+              href={step.planDetailLink?.url}
+              className="link-in-control"
+              target="_blank"
+              rel="noopener"
+            >
+              {step.planDetailLink?.label}
+            </a>
+          </div>
+
+          <div className="info-item company-info">{step.company}</div>
+          <div className="info-item footer-note">{step.notice}</div>
+        </div>
 
         <div
           className="submit-container"

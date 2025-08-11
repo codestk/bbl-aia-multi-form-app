@@ -7,7 +7,7 @@ export const getAccessToken = async () => {
     //   method: "GET",
     // });
 
-    console.log(__RequestVerificationToken);
+    // console.log(__RequestVerificationToken);
     const response = await fetch("/FormAIAs/FormAIAsPws/GetAccessToken", {
       method: "POST",
       headers: {
@@ -31,7 +31,7 @@ export const getAccessToken = async () => {
 
 // 📦 ใช้ token ไปเรียก backend เพื่อดึงข้อมูลแผนประกัน
 export const fetchPlanData = async (payload) => {
-  console.log(payload);
+  // console.log(payload);
 
   try {
     const __RequestVerificationToken = document.querySelector(

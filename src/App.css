@@ -33,7 +33,7 @@
 /*--------------------------------------------------*/
 
 /*Step 3*/
- .plan-summary-item {
+.plan-summary-item {
   display: flex;
   justify-content: space-between;
   align-items: baseline; /* ✅ ให้ baseline ของ label กับ value ตรงกัน */
@@ -46,7 +46,7 @@
   font-weight: 400;
   font-size: 16px;
   color: #000;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -57,18 +57,18 @@
   justify-content: flex-end;
   gap: 4px;
   font-weight: 500;
-  font-size:  var(--input-Font-Size-Normal);
+  font-size: var(--input-Font-Size-Normal);
   white-space: nowrap;
 }
 
 .plan-summary-item-value .value {
   color: var(--font-Color-base-pws);
-  font-size:  1.4em;
+  font-size: 1.4em;
 }
 
 .plan-summary-item-value .unit {
-   color: var(--font-Color-base-pws);
-  font-size:  var(--input-Font-Size-Normal);
+  color: var(--font-Color-base-pws);
+  font-size: var(--input-Font-Size-Normal);
 }
 
 @media (max-width: 500px) {
@@ -89,36 +89,30 @@
   border-top: 1px solid #eee; /* Light line separator */
 }
 .total-premium-label {
-   font-size: 1.5em; 
- 
+  font-size: 1.5em;
+
   font-weight: bold;
 
   color: var(--font-Color-base-pws);
+
+
+margin: 16px 0;
+
 }
 .total-premium-value {
   font-size: 2.2em;
   font-weight: bold;
-   color: var(  --font-Color-highlight-pws);
+  color: var(--font-Color-highlight-pws);
 }
 .total-premium-unit {
   font-size: 16px;
-  color:  var(--font-Color-base-pws);
+  color: var(--font-Color-base-pws);
   margin-left: 5px;
   /* font-weight: bold; */
 }
 
-
-
-
-
-
-
-
-
-
 .company-info {
   /* margin-bottom: 20px; */
- 
 }
 
 .footer-note {
@@ -126,7 +120,6 @@
   /* color: #777; */
   /* margin-top: 30px; */
   text-align: left;
- 
 }
 
 .section-mini {
@@ -171,21 +164,16 @@
   padding: 0 16px; /* ระยะขอบซ้าย-ขวา */
   box-sizing: border-box; /* รวม padding เข้า width */
 }
-.stepper-content
-{
-line-height: 130%;
-
+.stepper-content {
+  line-height: 130%;
 }
 /*Utility*/
- 
 
-.highlight-title
-{
-
+.highlight-title {
   font-size: 18px;
   font-weight: 500;
   color: #0064ff;
-  font-family: BangkokBank-Medium,sans-serif;
+  font-family: BangkokBank-Medium, sans-serif;
   line-height: 1.5;
 }
 
@@ -208,7 +196,7 @@ line-height: 130%;
 }
 
 .info-link {
-  color:#0064ff;
+  color: #0064ff;
   text-decoration: none;
   font-weight: 500;
 }
@@ -223,8 +211,36 @@ line-height: 130%;
 
 .footer-note {
   font-size: 14px;
-  color:var(   --input-Font-Size-Normal);
+  color: var(--input-Font-Size-Normal);
+}
+
+/* Base style */
+.link-in-control {
+  font-size: 16px;
+  font-weight: 400;
+  color: #0064ff; /* สีฟ้าแบบ Active */
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+/* Hover state */
+.link-in-control:hover {
+  color: #0048b7; /* สีฟ้าเข้มขึ้นเมื่อ hover */
+  text-decoration: underline;
+}
+
+/* Disabled state */
+.link-in-control.disabled {
+  color: #c6c6c6; /* สีเทาอ่อน */
+  cursor: not-allowed;
+  pointer-events: none;
+  text-decoration: none;
 }
 
 
- 
+
+.CustomSpaceStep2{
+
+  margin-top: -32px;
+}
